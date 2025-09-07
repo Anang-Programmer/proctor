@@ -45,7 +45,7 @@ Sistem ujian online yang dilengkapi dengan teknologi **Proctor Otomatis** menggu
 
 ### 1. Clone Repository
 ```bash
-git clone <repository-url>
+git clone (https://github.com/Anang-Programmer/proctor.git)
 cd sistem-ujian-proctor
 ```
 
