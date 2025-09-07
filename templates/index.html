@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}Selamat Datang - Sistem Ujian Online{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow">
+            <div class="card-body text-center">
+                <h1 class="card-title mb-4">
+                    <i class="fas fa-shield-alt text-primary"></i>
+                    Sistem Ujian Online dengan Proctor Otomatis
+                </h1>
+                <p class="card-text lead mb-4">
+                    Platform ujian online yang dilengkapi dengan sistem monitoring otomatis 
+                    untuk mencegah kecurangan selama ujian berlangsung.
+                </p>
+                
+                <div class="row mb-4">
+                    <div class="col-md-4">
+                        <div class="feature-box">
+                            <i class="fas fa-eye fa-3x text-primary mb-3"></i>
+                            <h5>Monitoring Real-time</h5>
+                            <p>Deteksi wajah dan pose tubuh secara real-time</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="feature-box">
+                            <i class="fas fa-mobile-alt fa-3x text-danger mb-3"></i>
+                            <h5>Deteksi Objek</h5>
+                            <p>Mendeteksi benda terlarang seperti HP, laptop, buku</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="feature-box">
+                            <i class="fas fa-exclamation-triangle fa-3x text-warning mb-3"></i>
+                            <h5>Sistem Peringatan</h5>
+                            <p>3 tingkat peringatan sebelum ujian dihentikan</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-grid gap-2 d-md-block">
+                    <a href="{{ url_for('login') }}" class="btn btn-primary btn-lg">
+                        <i class="fas fa-sign-in-alt"></i> Masuk ke Sistem
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.feature-box {
+    padding: 20px;
+    border-radius: 10px;
+    transition: transform 0.3s;
+}
+.feature-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+</style>
+{% endblock %}

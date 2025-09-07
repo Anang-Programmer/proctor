@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard Admin - Sistem Ujian Online{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h2><i class="fas fa-tachometer-alt"></i> Dashboard Admin</h2>
+        <hr>
+    </div>
+</div>
+
+<!-- Statistics Cards -->
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h5>Total Soal</h5>
+                        <h3>{{ total_soal }}</h3>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-question-circle fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h5>Total Ujian</h5>
+                        <h3>{{ total_ujian }}</h3>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-clipboard-list fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3">
+        <div class="card bg-info text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h5>Total Siswa</h5>
+                        <h3>{{ total_siswa }}</h3>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-users fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3">
+        <div class="card bg-warning text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h5>Hasil Ujian</h5>
+                        <h3>{{ total_hasil }}</h3>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-chart-bar fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Menu Cards -->
+<div class="row">
+    <div class="col-md-4 mb-3">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body text-center">
+                <i class="fas fa-question-circle fa-3x text-primary mb-3"></i>
+                <h5 class="card-title">Kelola Bank Soal</h5>
+                <p class="card-text">Tambah, edit, dan hapus soal ujian</p>
+                <a href="{{ url_for('admin_bank_soal') }}" class="btn btn-primary">
+                    <i class="fas fa-cog"></i> Kelola Soal
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-3">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body text-center">
+                <i class="fas fa-clipboard-list fa-3x text-success mb-3"></i>
+                <h5 class="card-title">Kelola Ujian</h5>
+                <p class="card-text">Buat dan atur ujian baru</p>
+                <a href="{{ url_for('admin_ujian') }}" class="btn btn-success">
+                    <i class="fas fa-plus"></i> Kelola Ujian
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-3">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body text-center">
+                <i class="fas fa-users fa-3x text-info mb-3"></i>
+                <h5 class="card-title">Kelola Peserta</h5>
+                <p class="card-text">Manajemen data siswa</p>
+                <a href="{{ url_for('admin_peserta') }}" class="btn btn-info">
+                    <i class="fas fa-user-cog"></i> Kelola Peserta
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-3">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body text-center">
+                <i class="fas fa-chart-bar fa-3x text-warning mb-3"></i>
+                <h5 class="card-title">Hasil Ujian</h5>
+                <p class="card-text">Lihat hasil dan nilai ujian</p>
+                <a href="{{ url_for('admin_hasil') }}" class="btn btn-warning">
+                    <i class="fas fa-eye"></i> Lihat Hasil
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-3">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body text-center">
+                <i class="fas fa-exclamation-triangle fa-3x text-danger mb-3"></i>
+                <h5 class="card-title">Log Pelanggaran</h5>
+                <p class="card-text">Monitor pelanggaran ujian</p>
+                <a href="{{ url_for('admin_pelanggaran') }}" class="btn btn-danger">
+                    <i class="fas fa-shield-alt"></i> Lihat Log
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-3">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body text-center">
+                <i class="fas fa-cog fa-3x text-secondary mb-3"></i>
+                <h5 class="card-title">Pengaturan</h5>
+                <p class="card-text">Konfigurasi sistem</p>
+                <a href="#" class="btn btn-secondary">
+                    <i class="fas fa-tools"></i> Pengaturan
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

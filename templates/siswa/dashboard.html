@@ -1,0 +1,177 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard Siswa - Sistem Ujian Online{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h2><i class="fas fa-user-graduate"></i> Dashboard Siswa</h2>
+        <p class="text-muted">Selamat datang, {{ current_user.nama_lengkap }}!</p>
+        <hr>
+    </div>
+</div>
+
+<!-- Ujian Tersedia -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5><i class="fas fa-clipboard-list"></i> Ujian Tersedia</h5>
+            </div>
+            <div class="card-body">
+                {% if ujian_tersedia %}
+                    <div class="row">
+                        {% for ujian in ujian_tersedia %}
+                        <div class="col-md-6 mb-3">
+                            <div class="card border-primary">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ ujian.nama_ujian }}</h5>
+                                    <p class="card-text">
+                                        <i class="fas fa-tag"></i> Kategori: {{ ujian.kategori }}<br>
+                                        <i class="fas fa-question-circle"></i> Jumlah Soal: {{ ujian.jumlah_soal }}<br>
+                                        <i class="fas fa-clock"></i> Durasi: {{ ujian.durasi_menit }} menit
+                                    </p>
+                                    <button class="btn btn-success btn-mulai-ujian" 
+                                            data-ujian-id="{{ ujian.id }}"
+                                            data-ujian-nama="{{ ujian.nama_ujian }}"
+                                            data-durasi="{{ ujian.durasi_menit }}">
+                                        <i class="fas fa-play"></i> Mulai Ujian
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="text-center">
+                        <i class="fas fa-info-circle fa-3x text-muted mb-3"></i>
+                        <p class="text-muted">Tidak ada ujian yang tersedia saat ini.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Riwayat Ujian -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h5><i class="fas fa-history"></i> Riwayat Ujian</h5>
+            </div>
+            <div class="card-body">
+                {% if hasil_ujian %}
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Nama Ujian</th>
+                                    <th>Tanggal</th>
+                                    <th>Nilai</th>
+                                    <th>Status</th>
+                                    <th>Pelanggaran</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for hasil in hasil_ujian %}
+                                <tr>
+                                    <td>{{ hasil.ujian.nama_ujian }}</td>
+                                    <td>{{ hasil.waktu_selesai.strftime('%d/%m/%Y %H:%M') }}</td>
+                                    <td>
+                                        <span class="badge bg-{{ 'success' if hasil.nilai >= 70 else 'warning' if hasil.nilai >= 60 else 'danger' }}">
+                                            {{ "%.1f"|format(hasil.nilai) }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-{{ 'success' if hasil.status_ujian == 'selesai' else 'danger' }}">
+                                            {{ hasil.status_ujian.title() }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-{{ 'success' if hasil.jumlah_pelanggaran == 0 else 'warning' if hasil.jumlah_pelanggaran < 3 else 'danger' }}">
+                                            {{ hasil.jumlah_pelanggaran }} pelanggaran
+                                        </span>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="text-center">
+                        <i class="fas fa-clipboard fa-3x text-muted mb-3"></i>
+                        <p class="text-muted">Belum ada riwayat ujian.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Konfirmasi Mulai Ujian -->
+<div class="modal fade" id="modalMulaiUjian" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <h5 class="modal-title"><i class="fas fa-exclamation-triangle"></i> Perhatian!</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-warning">
+                    <h6><strong>Sebelum memulai ujian, pastikan:</strong></h6>
+                    <ul class="mb-0">
+                        <li>Kamera dan mikrofon berfungsi dengan baik</li>
+                        <li>Pencahayaan ruangan cukup terang</li>
+                        <li>Tidak ada benda terlarang di sekitar (HP, buku, laptop)</li>
+                        <li>Posisi duduk tegak menghadap kamera</li>
+                    </ul>
+                </div>
+                
+                <div class="alert alert-danger">
+                    <h6><strong>Peringatan Sistem Proctor:</strong></h6>
+                    <ul class="mb-0">
+                        <li>Sistem akan memantau aktivitas Anda secara real-time</li>
+                        <li>Maksimal 3 pelanggaran, setelah itu ujian akan dihentikan</li>
+                        <li>Screenshot akan diambil sebagai bukti pelanggaran</li>
+                    </ul>
+                </div>
+                
+                <p><strong>Ujian:</strong> <span id="namaUjianModal"></span></p>
+                <p><strong>Durasi:</strong> <span id="durasiUjianModal"></span> menit</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <button type="button" class="btn btn-success" id="btnKonfirmasiMulai">
+                    <i class="fas fa-play"></i> Ya, Mulai Ujian
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const btnMulaiUjian = document.querySelectorAll('.btn-mulai-ujian');
+    const modal = new bootstrap.Modal(document.getElementById('modalMulaiUjian'));
+    let ujianId = null;
+    
+    btnMulaiUjian.forEach(btn => {
+        btn.addEventListener('click', function() {
+            ujianId = this.dataset.ujianId;
+            document.getElementById('namaUjianModal').textContent = this.dataset.ujianNama;
+            document.getElementById('durasiUjianModal').textContent = this.dataset.durasi;
+            modal.show();
+        });
+    });
+    
+    document.getElementById('btnKonfirmasiMulai').addEventListener('click', function() {
+        if (ujianId) {
+            window.location.href = `/siswa/ujian/${ujianId}/mulai`;
+        }
+    });
+});
+</script>
+{% endblock %}

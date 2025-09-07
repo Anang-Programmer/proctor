@@ -1,0 +1,235 @@
+{% extends "base.html" %}
+
+{% block title %}Bank Soal - Admin{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2><i class="fas fa-question-circle"></i> Bank Soal</h2>
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalTambahSoal">
+                <i class="fas fa-plus"></i> Tambah Soal
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        {% if soal_list %}
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Pertanyaan</th>
+                        <th>Kategori</th>
+                        <th>Tingkat</th>
+                        <th>Jawaban</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for soal in soal_list %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ soal.pertanyaan[:50] }}{% if soal.pertanyaan|length > 50 %}...{% endif %}</td>
+                        <td><span class="badge bg-info">{{ soal.kategori }}</span></td>
+                        <td><span class="badge bg-secondary">{{ soal.tingkat_kesulitan }}</span></td>
+                        <td><span class="badge bg-success">{{ soal.jawaban_benar }}</span></td>
+                        <td>
+                            <div class="btn-group btn-group-sm">
+                                <button class="btn btn-info btn-detail" data-soal-id="{{ soal.id }}">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="btn btn-warning btn-edit" data-soal-id="{{ soal.id }}">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-danger btn-delete" data-soal-id="{{ soal.id }}">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="text-center py-5">
+            <i class="fas fa-question-circle fa-3x text-muted mb-3"></i>
+            <p class="text-muted">Belum ada soal dalam bank soal.</p>
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalTambahSoal">
+                <i class="fas fa-plus"></i> Tambah Soal Pertama
+            </button>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Modal Tambah Soal -->
+<div class="modal fade" id="modalTambahSoal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="fas fa-plus"></i> Tambah Soal Baru</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="formTambahSoal">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Pertanyaan *</label>
+                        <textarea class="form-control" name="pertanyaan" rows="3" required></textarea>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Pilihan A *</label>
+                                <input type="text" class="form-control" name="pilihan_a" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Pilihan B *</label>
+                                <input type="text" class="form-control" name="pilihan_b" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Pilihan C *</label>
+                                <input type="text" class="form-control" name="pilihan_c" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Pilihan D *</label>
+                                <input type="text" class="form-control" name="pilihan_d" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">Jawaban Benar *</label>
+                                <select class="form-select" name="jawaban_benar" required>
+                                    <option value="">Pilih...</option>
+                                    <option value="A">A</option>
+                                    <option value="B">B</option>
+                                    <option value="C">C</option>
+                                    <option value="D">D</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">Kategori *</label>
+                                <input type="text" class="form-control" name="kategori" placeholder="Contoh: Informatika" required>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">Tingkat Kesulitan</label>
+                                <select class="form-select" name="tingkat_kesulitan">
+                                    <option value="mudah">Mudah</option>
+                                    <option value="sedang" selected>Sedang</option>
+                                    <option value="sulit">Sulit</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Simpan Soal
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Form submit handler
+    document.getElementById('formTambahSoal').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(this);
+        const data = Object.fromEntries(formData);
+        
+        fetch('/api/admin/soal/tambah', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                alert('Soal berhasil ditambahkan!');
+                location.reload();
+            } else {
+                alert('Error: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Terjadi kesalahan saat menyimpan soal');
+        });
+    });
+    
+    // Detail button handler
+    document.querySelectorAll('.btn-detail').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const soalId = this.dataset.soalId;
+            // Implement detail view
+            alert('Detail soal ID: ' + soalId);
+        });
+    });
+    
+    // Edit button handler
+    document.querySelectorAll('.btn-edit').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const soalId = this.dataset.soalId;
+            // Implement edit functionality
+            alert('Edit soal ID: ' + soalId);
+        });
+    });
+    
+    // Delete button handler
+    document.querySelectorAll('.btn-delete').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const soalId = this.dataset.soalId;
+            
+            if (confirm('Yakin ingin menghapus soal ini?')) {
+                fetch(`/api/admin/soal/hapus/${soalId}`, {
+                    method: 'DELETE'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        alert('Soal berhasil dihapus!');
+                        location.reload();
+                    } else {
+                        alert('Error: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Terjadi kesalahan saat menghapus soal');
+                });
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

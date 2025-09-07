@@ -1,0 +1,289 @@
+/* Custom CSS untuk Sistem Ujian Online */
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+}
+
+.navbar-brand {
+    font-weight: bold;
+}
+
+.card {
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+}
+
+.feature-box {
+    padding: 20px;
+    border-radius: 10px;
+    transition: transform 0.3s;
+    background: rgba(255,255,255,0.1);
+}
+
+.feature-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* Proctor Interface */
+.proctor-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    z-index: 9999;
+}
+
+.proctor-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: between;
+    align-items: center;
+}
+
+.proctor-content {
+    display: flex;
+    height: calc(100vh - 70px);
+}
+
+.camera-section {
+    width: 300px;
+    background: #1a1a1a;
+    padding: 20px;
+    border-right: 2px solid #333;
+}
+
+.ujian-section {
+    flex: 1;
+    background: white;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+#videoElement {
+    width: 100%;
+    height: 200px;
+    border-radius: 10px;
+    border: 2px solid #333;
+}
+
+.warning-counter {
+    background: #dc3545;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px 0;
+    text-align: center;
+}
+
+.timer-display {
+    background: #28a745;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+/* Soal Ujian */
+.soal-container {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.soal-header {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    border-left: 4px solid #007bff;
+}
+
+.pilihan-jawaban {
+    margin: 10px 0;
+}
+
+.pilihan-jawaban input[type="radio"] {
+    margin-right: 10px;
+    transform: scale(1.2);
+}
+
+.pilihan-jawaban label {
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    display: block;
+}
+
+.pilihan-jawaban label:hover {
+    background-color: #f8f9fa;
+}
+
+.pilihan-jawaban input[type="radio"]:checked + label {
+    background-color: #e3f2fd;
+    border: 2px solid #2196f3;
+}
+
+/* Navigation Soal */
+.soal-navigation {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 20px;
+}
+
+.btn-soal {
+    width: 40px;
+    height: 40px;
+    margin: 2px;
+    border-radius: 50%;
+    border: 2px solid #ddd;
+    background: white;
+    color: #666;
+    font-weight: bold;
+}
+
+.btn-soal.answered {
+    background: #28a745;
+    color: white;
+    border-color: #28a745;
+}
+
+.btn-soal.current {
+    background: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+/* Alert Pelanggaran */
+.alert-pelanggaran {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10000;
+    min-width: 400px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.alert-pelanggaran.ringan {
+    border-left: 5px solid #ffc107;
+}
+
+.alert-pelanggaran.berat {
+    border-left: 5px solid #dc3545;
+    animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translate(-50%, -50%) translateX(0); }
+    25% { transform: translate(-50%, -50%) translateX(-5px); }
+    75% { transform: translate(-50%, -50%) translateX(5px); }
+}
+
+/* Loading Spinner */
+.loading-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .proctor-content {
+        flex-direction: column;
+    }
+    
+    .camera-section {
+        width: 100%;
+        height: 250px;
+    }
+    
+    .ujian-section {
+        height: calc(100vh - 320px);
+    }
+    
+    #videoElement {
+        height: 150px;
+    }
+}
+
+/* Admin Tables */
+.table th {
+    background-color: #f8f9fa;
+    border-top: none;
+}
+
+.btn-group-sm .btn {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+}
+
+/* Form Styling */
+.form-control:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.btn {
+    border-radius: 5px;
+    font-weight: 500;
+}
+
+/* Status Badges */
+.badge {
+    font-size: 0.75em;
+}
+
+/* Dashboard Cards */
+.card-body h3 {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.card-body h5 {
+    font-size: 1rem;
+    opacity: 0.8;
+}
+
+/* Animation untuk cards */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card {
+    animation: fadeInUp 0.5s ease-out;
+}
